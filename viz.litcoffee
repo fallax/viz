@@ -8,7 +8,7 @@ Some helper functions to help handling arrays nicely.
 
 A function which given a numeric range, returns appropriate ticks to put on an axis representing that quantity. For the moment, using a horrible quick dodgy implementation. In future, we should use Talbot's algorithm for this: http://www.justintalbot.com/research/axis-labeling/ - we can base this code on the Closure implmentation at https://keminglabs.com/c2/docs/#c2.ticks
 
-    labels = (range) ->
+    window.labels = (range) ->
       # get a rough estimate of an appropriate tick size
       ticksize = Math.pow(10, Math.floor(Math.log(range[1]-range[0])/Math.log(10))) 
 
@@ -25,13 +25,25 @@ A function which given a numeric range, returns appropriate ticks to put on an a
       ticks = Math.floor(range[1] / ticksize) - Math.ceil(range[0] / ticksize)
       return ((firsttick + i*ticksize) for i in [0..ticks])
 
-    scale = (range, interval) ->
+    window.scale = (range, interval) ->
       zoom = (interval[1] - interval[0]) / (range[1] - range[0])
       offset = interval[0]
       return (input) -> ((input - range[0]) * zoom) + offset
 
+    window.parse = (values) ->
+      for value in values
+        if typeof value is "string" and not isNaN value
+          if value.indexOf(".") > -1 then parseFloat(value) else parseInt(value)
+        else
+          value
+
     window.axis = (datapoints, key, outputrange) ->
-      range = (datapoint[key] for datapoint in datapoints).range()
+      values = (datapoint[key] for datapoint in datapoints).slice()
+      values = parse values 
+
+      console.log values
+
+      range = values.range()
       axis =
         range: range
         labels: labels(range)
