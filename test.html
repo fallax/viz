@@ -11,13 +11,18 @@
   <script type="text/coffeescript">
   	$ () ->
   		console.log "loaded"
-  		console.log axis(periodic, "weight", [0, 1])
-  		console.log findType (element["period"] for element in periodic).slice()
-  		
+
   		makeCanvas()
   		blankCanvas()
   		canvasContext.fillStyle = "red"
-  		canvasContext.fillRect(100, 100, 100, 100)
+
+  		bleb = axis(periodic, "weight", [0, 100])
+
+  		values = (element["weight"] for element in periodic)
+
+  		for value, i in values
+  			console.log value
+  			canvasContext.fillRect(4 * i, 100, 2, bleb.scale(value))
   </script>
 </head>
 <body>

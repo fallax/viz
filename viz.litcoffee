@@ -57,13 +57,7 @@ A function which given a numeric range, returns appropriate ticks to put on an a
 
     window.axis = (datapoints, key, outputrange) ->
       values = (datapoint[key] for datapoint in datapoints).slice()
-
-      console.log findType values
-
       values = parse values, "number" 
-
-      console.log values
-
       range = values.range()
       axis =
         range: range
