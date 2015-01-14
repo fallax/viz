@@ -6,15 +6,20 @@
   	<script src="periodic.js"></script>
 	<script src="lib/coffee-script.js"></script>
 	<script src="lib/jquery-2.1.1.min.js"></script>
+	<script type="text/coffeescript" src="canvas.coffee"></script>
   <script type="text/literate-coffeescript" src="viz.litcoffee"></script>
   <script type="text/coffeescript">
   	$ () ->
   		console.log "loaded"
   		console.log axis(periodic, "weight", [0, 1])
   		console.log findType (element["period"] for element in periodic).slice()
+  		
+  		makeCanvas()
+  		blankCanvas()
+  		canvasContext.fillStyle = "red"
+  		canvasContext.fillRect(100, 100, 100, 100)
   </script>
 </head>
 <body>
-<canvas id="canvas" width=1000 height=800></canvas>
 </body>
 </html>
