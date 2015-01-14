@@ -30,16 +30,37 @@ A function which given a numeric range, returns appropriate ticks to put on an a
       offset = interval[0]
       return (input) -> ((input - range[0]) * zoom) + offset
 
-    window.parse = (values) ->
+    window.findType = (values) ->
+      guess = "number"
+
       for value in values
-        if typeof value is "string" and not isNaN value
-          if value.indexOf(".") > -1 then parseFloat(value) else parseInt(value)
-        else
-          value
+        switch typeof value
+          when "number"
+            # do nuffin!
+            a = 1
+          when "string"
+            if isNaN value then guess = "string"
+          else 
+            guess = "unknown"
+
+      guess
+
+    window.parse = (values, to) ->
+      for value in values
+        switch to
+          when "number"
+            if typeof value is "string"
+              if not isNaN value then parseFloat(value) else throw "aargh!"
+            else value
+          else
+            value
 
     window.axis = (datapoints, key, outputrange) ->
       values = (datapoint[key] for datapoint in datapoints).slice()
-      values = parse values 
+
+      console.log findType values
+
+      values = parse values, "number" 
 
       console.log values
 
