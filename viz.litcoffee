@@ -5,6 +5,7 @@ Some helper functions to help handling arrays nicely.
     Array.prototype.min = () -> this.reduce ((t, s) -> Math.min t, s), this[0]
     Array.prototype.sum = () -> this.reduce ((t, s) -> t + s), 0
     Array.prototype.range = () -> [this.min(), this.max()]
+    Array.prototype.contains = (element) -> (return true) for item in this when item is element; false;
 
 A function which given a numeric range, returns appropriate ticks to put on an axis representing that quantity. For the moment, using a horrible quick dodgy implementation. In future, we should use Talbot's algorithm for this: http://www.justintalbot.com/research/axis-labeling/ - we can base this code on the Closure implmentation at https://keminglabs.com/c2/docs/#c2.ticks
 
@@ -34,14 +35,15 @@ A function which given a numeric range, returns appropriate ticks to put on an a
       guess = "number"
 
       for value in values
-        switch typeof value
-          when "number"
-            # do nuffin!
-            a = 1
-          when "string"
-            if isNaN value then guess = "string"
-          else 
-            guess = "unknown"
+        if value?
+          switch typeof value
+            when "number"
+              # do nuffin!
+              a = 1
+            when "string"
+              if isNaN value then guess = "string"
+            else 
+              guess = "unknown"
 
       guess
 
@@ -49,18 +51,44 @@ A function which given a numeric range, returns appropriate ticks to put on an a
       for value in values
         switch to
           when "number"
-            if typeof value is "string"
-              if not isNaN value then parseFloat(value) else throw "aargh!"
-            else value
+            if not value?
+              0
+            else 
+              if typeof value is "string"
+                if not isNaN value then parseFloat(value) else throw "aargh!"
+              else value
           else
-            value
+            if not value?
+              "(no value)"
+            else 
+              value
+
+    window.getKeys = (values) ->
+      result = {};
+
+      for value in values
+        for key in Object.keys(value)
+          if result[key] then result[key]++ else result[key] = 1
+      return result
 
     window.axis = (datapoints, key, outputrange) ->
+
+      console.log "Proceessing key " + key
+
       values = (datapoint[key] for datapoint in datapoints).slice()
-      values = parse values, "number" 
-      range = values.range()
-      axis =
-        range: range
-        labels: labels(range)
-        scale: scale(range, outputrange)
+
+      typeGuess = findType values
+
+      values = parse values, typeGuess 
+      
+      axis = 
+        datatype: typeGuess
+        values: values
+
+      switch typeGuess
+        when "number"
+          axis.range = values.range()
+          axis.labels = labels(axis.range)
+          axis.scale = scale(axis.range, outputrange)
+
       axis

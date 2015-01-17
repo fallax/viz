@@ -10,19 +10,29 @@
   <script type="text/literate-coffeescript" src="viz.litcoffee"></script>
   <script type="text/coffeescript">
   	$ () ->
-  		console.log "loaded"
+      console.log "loaded"
 
-  		makeCanvas()
-  		blankCanvas()
-  		canvasContext.fillStyle = "red"
+      makeCanvas()
+      blankCanvas()
+      canvasContext.fillStyle = "red"
 
-  		bleb = axis(periodic, "weight", [0, 100])
+      keys = getKeys(periodic)
 
-  		values = (element["weight"] for element in periodic)
+      console.log "keys: " + keys
 
-  		for value, i in values
-  			console.log value
-  			canvasContext.fillRect(4 * i, 100, 2, bleb.scale(value))
+      pen = 100
+
+      for key in Object.keys(keys)
+        bleb = axis(periodic, key, [0, 100])
+        values = (element[key] for element in periodic)
+        console.log "axis: " + bleb + " type " + bleb.datatype
+
+        if bleb.datatype is "number"
+          console.log "attempting graph... " + bleb.values.length
+          for value, i in bleb.values
+            canvasContext.fillRect(4 * i, pen, 2, bleb.scale(value))
+          pen = pen + 150
+
   </script>
 </head>
 <body>
