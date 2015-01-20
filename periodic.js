@@ -52,7 +52,8 @@ etymology: ' Greek argon ',
 number: '18',
 weight: '39.948',
 group: '18',
-period: '3'
+period: '3',
+category: 'noble gases'
 },
 
 { 
@@ -74,7 +75,8 @@ etymology: ' Greek astatos ',
 number: '85',
 weight: '210',
 group: '17',
-period: '6'
+period: '6',
+category: 'halogens'
 },
 
 { 
@@ -162,7 +164,8 @@ etymology: ' Greek bromos ',
 number: '35',
 weight: '79.904',
 group: '17',
-period: '4'
+period: '4',
+category: 'halogens'
 },
 
 { 
@@ -228,7 +231,8 @@ etymology: ' Greek chloros ',
 number: '17',
 weight: '35.453',
 group: '17',
-period: '3'
+period: '3',
+category: 'halogens'
 },
 
 { 
@@ -360,7 +364,8 @@ etymology: ' Latin fluo ',
 number: '9',
 weight: '18.9984032',
 group: '17',
-period: '2'
+period: '2',
+category: 'halogens'
 },
 
 { 
@@ -457,6 +462,7 @@ info1: 'Nucleus is two protons and two neutrons (an alpha particle)',
 info2: 'Lots of helium is found underground in American gas fields; retrieved by fractional distillation of the gas',
 info3: 'Second least reactive element, a Noble gas',
 info4: 'Product of nuclear fusion in stars, second most abundant element in the universe',
+category: 'noble gases'
 },
 
 { 
@@ -511,7 +517,8 @@ etymology: ' Greek ioeides ',
 number: '53',
 weight: '126.904',
 group: '17',
-period: '5'
+period: '5',
+category: 'halogens'
 },
 
 { 
@@ -555,7 +562,8 @@ etymology: ' Greek kryptos ',
 number: '36',
 weight: '83.798',
 group: '18',
-period: '4'
+period: '4',
+category: 'noble gases'
 },
 
 { 
@@ -714,7 +722,8 @@ etymology: ' Greek neos ',
 number: '10',
 weight: '20.1797',
 group: '18',
-period: '2'
+period: '2',
+category: 'noble gases'
 },
 
 { 
@@ -945,7 +954,8 @@ etymology: ' emanation ',
 number: '86',
 weight: '220',
 group: '18',
-period: '6'
+period: '6',
+category: 'noble gases'
 },
 
 { 
@@ -1253,7 +1263,8 @@ etymology: ' Greek xenos ',
 number: '54',
 weight: '131.293',
 group: '18',
-period: '5'
+period: '5',
+category: 'noble gases'
 },
 
 { 
