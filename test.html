@@ -24,18 +24,36 @@
       pen = 100
 
       for key in Object.keys(keys)
-        bleb = axis(periodic, key, [0, 100])
-        values = (element[key] for element in periodic)
-        console.log "axis: " + bleb + " type " + bleb.datatype
+        $( "#x" ).append( "<option value='" + key + "'>" + key + "</option>" );
+        $( "#y" ).append( "<option value='" + key + "'>" + key + "</option>" );
 
-        if bleb.datatype is "number"
-          console.log "attempting graph... " + bleb.values.length
-          for value, i in bleb.values
-            canvasContext.fillRect(4 * i, pen, 2, bleb.scale(value))
-          pen = pen + 150
+      $("#x,#y").on("change", () ->
+        key = $("#x").val(); 
+        ykey = $("#y").val();
+        console.log "plotting " + key + ", " + ykey
+
+        blankCanvas()
+
+        xaxis = axis(periodic, key, [0, 400])
+        yaxis = axis(periodic, ykey, [0, 400])
+        values = (element for element in periodic)
+
+        if xaxis.datatype is "number" and yaxis.datatype is "number"
+          for value, i in values
+            canvasContext.fillRect xaxis.scale(value[key]), yaxis.scale(value[ykey]), 4, 4
+        else
+          console.log "attempting categorical graph... "
+
+          uniqueValues = values.unique()
+
+          console.log uniqueValues
+        );
+
 
   </script>
 </head>
 <body>
+  <select id="x"></select> 
+  <select id="y"></select> 
 </body>
 </html>
