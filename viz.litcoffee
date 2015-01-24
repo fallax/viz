@@ -32,12 +32,8 @@ A function which given a numeric range, returns appropriate ticks to put on an a
       return (input) -> ((input - range[0]) * zoom) + offset
 
     window.qualscale = (range, interval, keys) ->
-      zoom = (interval[1] - interval[0]) / (range[1] - range[0])
-      offset = interval[0]
-
-      return (input) -> 
-        number = keys.indexOf(input)
-        ((number - range[0]) * zoom) + offset
+      scale = window.quantscale range, interval
+      return (input) -> scale keys.indexOf(input)
 
     window.axis = (datapoints, key, outputrange) ->
 
