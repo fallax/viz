@@ -23,30 +23,50 @@
 
       pen = 100
 
+      key = "none";
+      $( "#x" ).append( "<option value='" + key + "'>" + key + "</option>" );
+      $( "#y" ).append( "<option value='" + key + "'>" + key + "</option>" );
+      $( "#z" ).append( "<option value='" + key + "'>" + key + "</option>" );
+
       for key in Object.keys(keys)
         $( "#x" ).append( "<option value='" + key + "'>" + key + "</option>" );
         $( "#y" ).append( "<option value='" + key + "'>" + key + "</option>" );
+        $( "#z" ).append( "<option value='" + key + "'>" + key + "</option>" );
 
-      $("#x,#y").on("change", () ->
-        key = $("#x").val(); 
+      $("#x,#y,#z").on("change", () ->
+        xkey = $("#x").val(); 
         ykey = $("#y").val();
-        console.log "plotting " + key + ", " + ykey
+        zkey = $("#z").val();
+
+        if xkey is "none" then xkey = null
+        if ykey is "none" then ykey = null
+        if zkey is "none" then zkey = null
+
+        console.log "plotting " + xkey + ", " + ykey
 
         blankCanvas()
 
-        xaxis = axis(periodic, key, [0, 400])
+        xaxis = axis(periodic, xkey, [0, 400])
         yaxis = axis(periodic, ykey, [0, 400])
+        zaxis = axis(periodic, zkey, [0, 400])
+
         values = (element for element in periodic)
 
-        if xaxis.datatype is "number" and yaxis.datatype is "number"
-          for value, i in values
-            canvasContext.fillRect xaxis.scale(value[key]), yaxis.scale(value[ykey]), 4, 4
-        else
-          console.log "attempting categorical graph... "
+        graphemes = []
 
-          uniqueValues = values.unique()
+        for value, i in values
+          if xkey? and ykey?
+            graphemes.push {x0: xaxis.scale(value[xkey]), y0: yaxis.scale(value[ykey]), x1: xaxis.scale(value[xkey]) + 4, y1: yaxis.scale(value[ykey]) + 4}
+          else
+            if xkey?
+              graphemes.push {x0: 0, y0: i * 4, x1: xaxis.scale(value[xkey]), y1: 4 + (i * 4)}
+            else
+              graphemes.push {x0: i * 4, y0: 0, x1: 4 + (i * 4), y1: yaxis.scale(value[ykey])}
 
-          console.log uniqueValues
+        for grapheme in graphemes
+          canvasContext.fillStyle = "red"
+          canvasContext.fillRect grapheme.x0, grapheme.y0, grapheme.x1 - grapheme.x0, grapheme.y1 - grapheme.y0
+
         );
 
 
@@ -54,6 +74,7 @@
 </head>
 <body>
   <select id="x"></select> 
-  <select id="y"></select> 
+  <select id="y"></select>
+  <select id="z"></select>  
 </body>
 </html>
