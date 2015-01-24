@@ -41,3 +41,11 @@ Some methods for handling objects whose data types may not be known, where value
         for key in Object.keys(value)
           if result[key] then result[key]++ else result[key] = 1
       return result
+
+(from https://coffeescript-cookbook.github.io/chapters/arrays/removing-duplicate-elements-from-arrays)
+
+    Array::unique = ->
+      output = {}
+      output[@[key]] = @[key] for key in [0...@length]
+      value for key, value of output
+
